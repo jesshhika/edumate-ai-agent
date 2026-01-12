@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Tutor - EduMate{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/tutor.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="tutor-page">
+  <h2>AI Tutor</h2>
+
+  <!-- Chat Interface -->
+  <div class="tutor-container">
+    <!-- Chat History -->
+    <div class="chat-box">
+      {% if chats %}
+        {% for chat in chats %}
+          <div class="chat-message user-msg">
+            <strong>You:</strong> {{ chat.question }}
+          </div>
+          <div class="chat-message ai-msg">
+            <strong>AI:</strong> {{ chat.answer|safe }}
+          </div>
+        {% endfor %}
+      {% else %}
+        <p class="no-chat">No chats yet. Ask your first question!</p>
+      {% endif %}
+    </div>
+
+    <!-- Ask Form -->
+    <form method="POST" class="tutor-form form-card">
+      <label for="query">Ask a Question:</label>
+      <textarea name="query" id="query" rows="3" required placeholder="e.g., Explain dynamic programming with an example..."></textarea>
+      <button type="submit" class="btn">Ask Tutor</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}Recommendations - EduMate{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/recommendations.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="recommendations-page">
+  <div class="recommendations-header">
+    <h2>🎯 AI-Powered Recommendations</h2>
+    <p class="subtitle">Personalized educational content based on your study patterns</p>
+  </div>
+
+  <div class="recommendations-content">
+    <div class="recommendations-card">
+      <div class="card-header">
+        <h3>📚 Recommended Resources</h3>
+        <span class="refresh-btn" onclick="location.reload()">🔄</span>
+      </div>
+      <div class="recommendations-text">
+        {% if recommendations_text %}
+          <pre>{{ recommendations_text }}</pre>
+        {% else %}
+          <pre>• Review your recent notes regularly
+• Create a consistent study schedule  
+• Take breaks every 45-60 minutes
+• Practice active recall techniques
+• Set specific, achievable goals</pre>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="content-categories">
+      <h3>Content Categories</h3>
+      <div class="categories-grid">
+        <div class="category-card">
+          <div class="category-icon">🎥</div>
+          <h4>Videos</h4>
+          <p>Educational videos and tutorials</p>
+        </div>
+        <div class="category-card">
+          <div class="category-icon">📖</div>
+          <h4>Articles</h4>
+          <p>In-depth articles and guides</p>
+        </div>
+        <div class="category-card">
+          <div class="category-icon">🎧</div>
+          <h4>Podcasts</h4>
+          <p>Audio learning content</p>
+        </div>
+        <div class="category-card">
+          <div class="category-icon">📚</div>
+          <h4>Books</h4>
+          <p>Recommended reading materials</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="study-tips">
+      <h3>💡 Study Tips</h3>
+      <div class="tips-list">
+        <div class="tip-item">
+          <span class="tip-number">1</span>
+          <p>Use the recommended resources to supplement your current study materials</p>
+        </div>
+        <div class="tip-item">
+          <span class="tip-number">2</span>
+          <p>Try different content formats to find what works best for your learning style</p>
+        </div>
+        <div class="tip-item">
+          <span class="tip-number">3</span>
+          <p>Take notes while consuming recommended content to reinforce learning</p>
+        </div>
+        <div class="tip-item">
+          <span class="tip-number">4</span>
+          <p>Share interesting resources with study groups or classmates</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

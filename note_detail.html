@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% block title %}{{ note.title }} - EduMate{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/notes.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="note-detail-page">
+  <div class="note-header">
+    <h2>{{ note.title }}</h2>
+    <div class="note-actions">
+      <a href="{{ url_for('notes') }}" class="btn ghost">← Back to Notes</a>
+      {% if note.source_pdf %}
+        <a href="{{ url_for('uploaded_file', filename=note.source_pdf) }}" target="_blank" class="btn">📄 View PDF</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="note-content">
+    <div class="content-section">
+      <h3>📝 Content</h3>
+      <div class="content-text">
+        <pre>{{ note.content }}</pre>
+      </div>
+    </div>
+
+    {% if flashcards %}
+    <div class="flashcards-section">
+      <h3>🎴 Generated Flashcards</h3>
+      <div class="flashcards-grid">
+        {% for card in flashcards %}
+          <div class="flashcard">
+            <div class="flashcard-question">
+              <strong>Q:</strong> {{ card.question }}
+            </div>
+            <div class="flashcard-answer">
+              <strong>A:</strong> {{ card.answer }}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    {% if note.source_pdf %}
+    <div class="pdf-section">
+      <h3>📄 Source PDF</h3>
+      <p>Original file: <a href="{{ url_for('uploaded_file', filename=note.source_pdf) }}" target="_blank">{{ note.source_pdf }}</a></p>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<style>
+.note-detail-page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.note-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--accent);
+}
+
+.note-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.content-section, .flashcards-section, .pdf-section {
+  background: var(--card);
+  padding: 25px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.content-section h3, .flashcards-section h3, .pdf-section h3 {
+  color: var(--accent);
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.content-text pre {
+  background: rgba(0,0,0,0.3);
+  padding: 20px;
+  border-radius: 8px;
+  color: var(--white);
+  line-height: 1.6;
+  white-space: pre-wrap;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-height: 500px;
+  overflow-y: auto;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.flashcards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.flashcard {
+  background: rgba(0,0,0,0.2);
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: transform 0.2s ease;
+}
+
+.flashcard:hover {
+  transform: translateY(-2px);
+}
+
+.flashcard-question {
+  margin-bottom: 15px;
+  color: var(--white);
+  font-size: 16px;
+}
+
+.flashcard-answer {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.pdf-section a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.pdf-section a:hover {
+  text-decoration: underline;
+}
+</style>
+{% endblock %}

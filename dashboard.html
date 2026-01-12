@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - EduMate{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+  <h2>Hi {{ session['user_name'] }}, here’s your Dashboard</h2>
+
+  <div class="dashboard-grid">
+    <!-- Today's Plan -->
+    <div class="dash-card">
+      <h3>Today's Plan ({{ today }})</h3>
+      {% if today_plan %}
+        <div class="today-plan">
+          {% if today_summary %}
+            <div class="plan-summary">
+              <h4>📋 Today's Focus</h4>
+              <p>{{ today_summary }}</p>
+            </div>
+          {% else %}
+            <div class="plan-content">
+              <pre>{{ today_plan.plan_text[:300] }}{% if today_plan.plan_text|length > 300 %}...{% endif %}</pre>
+            </div>
+          {% endif %}
+        </div>
+        <a href="{{ url_for('planner') }}" class="btn">View Full Plan</a>
+      {% else %}
+        <p>No plan for today yet.</p>
+        <a href="{{ url_for('planner') }}" class="btn">Create Today's Plan</a>
+      {% endif %}
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="dash-card">
+      <h3>Quick Actions</h3>
+      <div class="action-buttons">
+        <a href="{{ url_for('tutor') }}" class="btn ghost">Ask Tutor</a>
+        <a href="{{ url_for('notes') }}" class="btn ghost">Upload Notes</a>
+        <a href="{{ url_for('flashcards') }}" class="btn ghost">Study Flashcards</a>
+      </div>
+    </div>
+
+    <!-- Progress -->
+    <div class="dash-card">
+      <h3>Progress</h3>
+      {% if progress %}
+        <ul class="progress-list">
+          {% for p in progress %}
+            <li>{{ p.subject }} — {{ p.progress_percent }}%</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No progress data yet.</p>
+      {% endif %}
+      <a href="{{ url_for('analytics') }}" class="btn">View Analytics</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

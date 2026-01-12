@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Assignments - EduMate{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/assignments.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="assignments-page">
+  <h2>Assignments</h2>
+
+  <!-- Add Form -->
+  <form method="POST" class="form-card assignments-form">
+    <label>Title</label>
+    <input type="text" name="title" required>
+
+    <label>Description</label>
+    <textarea name="description" rows="3"></textarea>
+
+    <label>Due Date</label>
+    <input type="date" name="due_date">
+
+    <label class="checkbox-inline">
+      <input type="checkbox" name="use_ai"> Let AI create assignment
+    </label>
+
+    <button type="submit" class="btn">Add Assignment</button>
+  </form>
+
+  <!-- List -->
+  <div class="assignments-list">
+    <h3>Your Assignments</h3>
+    {% if items %}
+      <div class="assignments-grid">
+        {% for a in items %}
+          <div class="assignment-item">
+            <div class="assignment-header">
+              <h4>{{ a.title|safe }}</h4>
+              <span class="status-badge status-{{ a.status }}">{{ a.status.title() }}</span>
+            </div>
+            <div class="assignment-content">
+              <div class="assignment-summary">{{ a.title|safe }}</div>
+              <div class="assignment-meta">
+                <small>Due: {{ a.due_date or 'No due date' }}</small>
+                <div class="assignment-actions">
+                  <a href="{{ url_for('view_assignment', assignment_id=a.id) }}" class="btn ghost">View Details</a>
+                  <a href="{{ url_for('assignments', toggle=a.id) }}" class="toggle-btn">
+                    {{ 'Mark Complete' if a.status == 'pending' else 'Mark Pending' }}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="muted">No assignments yet.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

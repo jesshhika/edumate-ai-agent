@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block title %}{{ assignment.title }} - Assignment Details - EduMate{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/assignments.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="assignment-detail-page">
+  <div class="assignment-header">
+    <h2>{{ assignment.title|safe }}</h2>
+    <div class="assignment-actions">
+      <a href="{{ url_for('assignments') }}" class="btn ghost">← Back to Assignments</a>
+      <a href="{{ url_for('assignments', toggle=assignment.id) }}" class="btn">
+        {{ 'Mark Complete' if assignment.status == 'pending' else 'Mark Pending' }}
+      </a>
+    </div>
+  </div>
+
+  <div class="assignment-content">
+    <div class="assignment-info">
+      <div class="info-item">
+        <strong>Status:</strong>
+        <span class="status-badge status-{{ assignment.status }}">{{ assignment.status.title() }}</span>
+      </div>
+      <div class="info-item">
+        <strong>Due Date:</strong>
+        <span>{{ assignment.due_date or 'No due date set' }}</span>
+      </div>
+      <div class="info-item">
+        <strong>Created:</strong>
+        <span>{{ assignment.created_at.strftime('%B %d, %Y') if assignment.created_at else 'Recently' }}</span>
+      </div>
+    </div>
+
+    <div class="assignment-description">
+      <h3>Assignment Details</h3>
+      <div class="description-content">
+        {{ assignment.description|safe }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.assignment-detail-page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.assignment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--accent);
+}
+
+.assignment-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.assignment-info {
+  background: var(--card);
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.info-item:last-child {
+  margin-bottom: 0;
+}
+
+.assignment-description {
+  background: var(--card);
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.assignment-description h3 {
+  color: var(--accent);
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.description-content {
+  line-height: 1.6;
+  color: var(--white);
+}
+
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.status-pending {
+  background: #ff6b35;
+  color: white;
+}
+
+.status-completed {
+  background: #28a745;
+  color: white;
+}
+</style>
+{% endblock %}

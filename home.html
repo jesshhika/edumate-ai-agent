@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Welcome - EduMate{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% endblock %}
+{% block content %}
+<section class="hero">
+  <h1>Welcome to EduMate</h1>
+  <p>Your AI study assistant. Manage plans, notes, flashcards and learn smarter.</p>
+  <div class="cta">
+    <a class="btn" href="{{ url_for('register') }}">Get Started</a>
+    <a class="btn ghost" href="{{ url_for('login') }}">Login</a>
+  </div>
+</section>
+{% endblock %}

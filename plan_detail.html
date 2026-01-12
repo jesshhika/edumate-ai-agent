@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block title %}{{ plan.date }} - Plan Details - EduMate{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/planner.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="plan-detail-page">
+  <div class="plan-header">
+    <h2>📅 Study Plan - {{ plan.date }}</h2>
+    <div class="plan-actions">
+      <a href="{{ url_for('planner') }}" class="btn ghost">← Back to Planner</a>
+    </div>
+  </div>
+
+  <div class="plan-content">
+    <div class="plan-details">
+      <div class="plan-text">
+        <h3>📋 Plan Details</h3>
+        <div class="plan-content-text">
+          {{ plan.plan_text|safe }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.plan-detail-page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.plan-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--accent);
+}
+
+.plan-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.plan-details {
+  background: var(--card);
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.plan-details h3 {
+  color: var(--accent);
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.plan-content-text pre {
+  background: rgba(0,0,0,0.3);
+  padding: 20px;
+  border-radius: 8px;
+  color: var(--white);
+  line-height: 1.6;
+  white-space: pre-wrap;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+@media print {
+  .plan-header .plan-actions {
+    display: none;
+  }
+  
+  .plan-detail-page {
+    max-width: none;
+    padding: 0;
+  }
+  
+  .plan-details {
+    background: white;
+    color: black;
+    border: none;
+  }
+  
+  .plan-content-text pre {
+    background: white;
+    color: black;
+    border: 1px solid #ccc;
+  }
+}
+</style>
+{% endblock %}

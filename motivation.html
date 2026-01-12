@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Motivation - EduMate{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/motivation.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="motivation-page">
+  <div class="motivation-header">
+    <h2>💪 Daily Motivation & Wellness</h2>
+    <p class="subtitle">Your personalized study motivation and wellness tips</p>
+  </div>
+
+  <div class="motivation-content">
+    <div class="motivation-card">
+      <div class="card-header">
+        <h3>Today's Inspiration</h3>
+        <span class="refresh-btn" onclick="location.reload()">🔄</span>
+      </div>
+      <div class="motivation-text">
+        {% if motivation_text %}
+          {{ motivation_text }}
+        {% else %}
+          <p>Keep studying! Every expert was once a beginner. You've got this! 💪</p>
+          <p>Remember: Success is the sum of small efforts repeated day in and day out.</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="wellness-tips">
+      <h3>Wellness Tips</h3>
+      <div class="tips-grid">
+        <div class="tip-card">
+          <div class="tip-icon">🧘</div>
+          <h4>Take Breaks</h4>
+          <p>Study for 25 minutes, then take a 5-minute break. This Pomodoro technique helps maintain focus.</p>
+        </div>
+        <div class="tip-card">
+          <div class="tip-icon">💧</div>
+          <h4>Stay Hydrated</h4>
+          <p>Drink water regularly to keep your brain functioning at its best during study sessions.</p>
+        </div>
+        <div class="tip-card">
+          <div class="tip-icon">🌱</div>
+          <h4>Growth Mindset</h4>
+          <p>View challenges as opportunities to grow. Every mistake is a step closer to mastery.</p>
+        </div>
+        <div class="tip-card">
+          <div class="tip-icon">🎯</div>
+          <h4>Set Goals</h4>
+          <p>Break large tasks into smaller, manageable goals to maintain motivation and track progress.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="study-prompts">
+      <h3>Quick Study Prompts</h3>
+      <div class="prompts-list">
+        <button class="prompt-btn" onclick="getMotivation('Give me a study quote for today')">
+          📚 Study Quote
+        </button>
+        <button class="prompt-btn" onclick="getMotivation('I need motivation to study right now')">
+          💪 Study Motivation
+        </button>
+        <button class="prompt-btn" onclick="getMotivation('Give me a study break suggestion')">
+          ☕ Break Idea
+        </button>
+        <button class="prompt-btn" onclick="getMotivation('I feel overwhelmed, give me a wellness tip')">
+          🧘 Wellness Tip
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function getMotivation(prompt) {
+  // This would ideally make an AJAX call to get new motivation
+  // For now, we'll just reload the page
+  window.location.href = '{{ url_for("motivation") }}?prompt=' + encodeURIComponent(prompt);
+}
+</script>
+{% endblock %}

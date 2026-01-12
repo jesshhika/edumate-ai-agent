@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Analytics - EduMate{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/analytics.css') }}">
+{% endblock %}
+{% block content %}
+
+<div class="analytics-container">
+  <h2> Analytics & Progress</h2>
+
+  <!-- Subject progress -->
+  {% if progress %}
+    <h3>Your Subject Progress</h3>
+    <div class="stats-grid">
+      {% for p in progress %}
+      <div class="stat-card">
+        <h3>{{ p.subject }}</h3>
+        <p>{{ p.progress_percent }}%</p>
+      </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>No subject progress yet.</p>
+  {% endif %}
+
+  <!-- Extra stats -->
+  <h3>Overall Activity</h3>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <h3>Assignments</h3>
+      <p>Total: {{ assignment_stats.total }}</p>
+      <p>Completed: {{ assignment_stats.completed or 0 }}</p>
+    </div>
+
+    <div class="stat-card">
+      <h3>Study Plans</h3>
+      <p>{{ plans_stats.total or 0 }}</p>
+    </div>
+
+    <div class="stat-card">
+      <h3>Notes</h3>
+      <p>{{ notes_stats.notes_count }}</p>
+    </div>
+
+    <div class="stat-card">
+      <h3>Flashcards</h3>
+      <p>{{ flashcards_stats.flashcards_count }}</p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

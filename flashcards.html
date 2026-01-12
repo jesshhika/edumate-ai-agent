@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Flashcards - EduMate{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/flashcards.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="flashcards-page">
+  <div class="flashcards-header">
+    <h2>🎴 Flashcards</h2>
+    <p class="subtitle">Most recently generated flashcards from your notes</p>
+  </div>
+
+  {% if cards %}
+    <div class="cards-stats">
+      <div class="stat-item">
+        <span class="stat-number">{{ cards|length }}</span>
+        <span class="stat-label">Total Cards</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">{{ cards|selectattr('title')|list|length }}</span>
+        <span class="stat-label">From Notes</span>
+      </div>
+    </div>
+
+    <div class="cards-grid">
+      {% for card in cards %}
+        <div class="flashcard" onclick="flipCard(this)">
+          <div class="flashcard-front" id="front-{{ loop.index }}">
+            <div class="card-header">
+              <span class="card-source">{{ card.title or 'General' }}</span>
+              <span class="card-number">#{{ loop.index }}</span>
+            </div>
+            <div class="card-question">
+              <h3>Q:</h3>
+              <p>{{ card.question|safe }}</p>
+            </div>
+            <div class="flip-hint">Click to reveal answer</div>
+          </div>
+          <div class="flashcard-back" id="back-{{ loop.index }}" style="display: none;">
+            <div class="card-header">
+              <span class="card-source">{{ card.title or 'General' }}</span>
+              <span class="card-number">#{{ loop.index }}</span>
+            </div>
+            <div class="card-answer">
+              <h3>A:</h3>
+              <p>{{ card.answer|safe }}</p>
+            </div>
+            <div class="flip-hint">Click to see question</div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-state">
+      <div class="empty-icon">🎴</div>
+      <h3>No flashcards yet</h3>
+      <p>Upload some PDFs or add notes to generate flashcards automatically!</p>
+      <a href="{{ url_for('notes') }}" class="btn">Upload Notes</a>
+    </div>
+  {% endif %}
+</div>
+
+<script>
+function flipCard(card) {
+  const front = card.querySelector('.flashcard-front');
+  const back = card.querySelector('.flashcard-back');
+  
+  if (front.style.display === 'none') {
+    front.style.display = 'flex';
+    back.style.display = 'none';
+  } else {
+    front.style.display = 'none';
+    back.style.display = 'flex';
+  }
+}
+</script>
+{% endblock %}

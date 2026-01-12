@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}EduMate{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    {% block extra_css %}{% endblock %}
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="topnav">
+      <div class="brand">
+        <a href="{{ url_for('dashboard') if session.get('user_id') else url_for('home') }}">EduMate</a>
+      </div>
+      <div class="navlinks">
+        {% if session.get('user_id') %}
+          <a href="{{ url_for('dashboard') }}" class="nav-item">Dashboard</a>
+          <a href="{{ url_for('planner') }}" class="nav-item">Planner</a>
+          <a href="{{ url_for('tutor') }}" class="nav-item">AI Tutor</a>
+          <a href="{{ url_for('notes') }}" class="nav-item">Notes</a>
+          <a href="{{ url_for('flashcards') }}" class="nav-item">Flashcards</a>
+          <a href="{{ url_for('assignments') }}" class="nav-item">Assignments</a>
+          <a href="{{ url_for('analytics') }}" class="nav-item">Analytics</a>
+          <a href="{{ url_for('profile') }}" class="nav-item">Profile</a>
+          <a href="{{ url_for('logout') }}" class="nav-item logout">Logout</a>
+        {% else %}
+          <a href="{{ url_for('home') }}" class="nav-item">Home</a>
+          <a href="{{ url_for('register') }}" class="nav-item">Register</a>
+          <a href="{{ url_for('login') }}" class="nav-item">Login</a>
+        {% endif %}
+        <!-- Theme toggle -->
+        <button id="themeToggle" class="btn ghost theme-btn">🌙</button>
+      </div>
+    </nav>
+
+    <!-- Flash messages -->
+    <div class="flashes">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, msg in messages %}
+            <div class="flash {{category}}">{{ msg }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+    </div>
+
+    <!-- Main content -->
+    <main class="container">
+      {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div>© {{ now.year }} EduMate — Student AI Assistant</div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/transitions.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+  </body>
+</html>
